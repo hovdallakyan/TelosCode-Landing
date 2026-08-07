@@ -287,7 +287,7 @@ function App() {
             Contact
           </a>
         </nav>
-        <a className="btn btn-sm" href="#contact" onClick={closeMenu}>
+        <a className="btn btn-sm nav-cta" href="#contact" onClick={closeMenu}>
           Book consultation
         </a>
         <button
@@ -295,11 +295,40 @@ function App() {
           type="button"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
         >
           <span className={menuOpen ? 'x' : ''} />
         </button>
       </header>
+
+      {/* Mobile menu portal-style overlay (outside sticky bar so fixed works reliably) */}
+      <div
+        id="mobile-menu"
+        className={`mobile-menu ${menuOpen ? 'is-open' : ''}`}
+        aria-hidden={!menuOpen}
+      >
+        <nav className="mobile-menu-nav" aria-label="Mobile">
+          <a href="#services" onClick={closeMenu}>
+            Services
+          </a>
+          <a href="#work" onClick={closeMenu}>
+            Work
+          </a>
+          <a href="#approach" onClick={closeMenu}>
+            Approach
+          </a>
+          <a href="#about" onClick={closeMenu}>
+            Team
+          </a>
+          <a href="#contact" onClick={closeMenu}>
+            Contact
+          </a>
+        </nav>
+        <a className="btn mobile-menu-cta" href="#contact" onClick={closeMenu}>
+          Book consultation
+        </a>
+      </div>
 
       <main id="main">
         {/* Hero — full bleed cosmic field */}

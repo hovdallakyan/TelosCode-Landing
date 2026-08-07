@@ -228,6 +228,11 @@ img {
   transform: rotate(-45deg);
 }
 
+/* Mobile overlay menu — hidden on desktop */
+.mobile-menu {
+  display: none;
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -1895,26 +1900,33 @@ a.row-item:hover .row-go {
     width: min(100% - 32px, var(--wrap));
   }
 
-  /* Nav — bar stays fixed height; menu overlays page */
+  /* Nav bar — fixed height only */
   .nav {
     position: sticky;
     top: 0;
     height: 56px;
     padding: 0 16px;
     gap: 12px;
-    z-index: 50;
+    z-index: 60;
+    background: rgba(0, 0, 0, 0.94);
+  }
+
+  .nav.is-open {
+    height: 56px;
+    flex-wrap: nowrap;
+    border-bottom-color: var(--line);
+    background: #000000;
   }
 
   .logo {
     font-size: 14px;
     min-width: 0;
-    position: relative;
-    z-index: 52;
+    z-index: 62;
   }
 
   .nav-links,
-  .nav > .btn {
-    display: none;
+  .nav-cta {
+    display: none !important;
   }
 
   .menu-btn {
@@ -1923,59 +1935,62 @@ a.row-item:hover .row-go {
     width: 44px;
     height: 44px;
     flex-shrink: 0;
-    position: relative;
-    z-index: 52;
+    z-index: 62;
   }
 
-  /* Overlay panel — does not expand the header or push content */
-  .nav.is-open {
-    height: 56px;
-    flex-wrap: nowrap;
-    padding: 0 16px;
-    border-bottom-color: transparent;
-    background: rgba(0, 0, 0, 0.92);
-  }
-
-  .nav.is-open .nav-links {
-    display: flex;
-    flex-direction: column;
+  /* Full-screen overlay under the bar — does not push layout */
+  .mobile-menu {
+    display: block;
     position: fixed;
     top: 56px;
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100%;
-    margin: 0;
-    padding: 8px 20px 100px;
-    gap: 0;
-    background: rgba(0, 0, 0, 0.97);
-    backdrop-filter: blur(20px);
+    z-index: 55;
+    padding: 12px 20px max(24px, env(safe-area-inset-bottom));
+    background: #000000;
     border-top: 1px solid var(--line);
     overflow-y: auto;
-    z-index: 51;
     -webkit-overflow-scrolling: touch;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition:
+      opacity 280ms var(--ease),
+      visibility 280ms var(--ease),
+      transform 280ms var(--ease);
   }
 
-  .nav.is-open .nav-links a {
+  .mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .mobile-menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .mobile-menu-nav a {
     display: block;
-    padding: 16px 0;
-    font-size: 17px;
+    padding: 18px 0;
+    font-size: 18px;
     font-weight: 600;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .nav.is-open > .btn {
-    display: inline-flex;
-    position: fixed;
-    left: 20px;
-    right: 20px;
-    bottom: max(20px, env(safe-area-inset-bottom));
-    width: auto;
+  .mobile-menu-cta {
+    display: flex;
+    width: 100%;
     justify-content: center;
-    margin: 0;
+    margin-top: 28px;
     min-height: 48px;
     font-size: 15px;
-    z-index: 53;
   }
 
   /* Hero — full viewport height on mobile */
@@ -2455,8 +2470,8 @@ a.row-item:hover .row-go {
     align-items: flex-start;
   }
 
-  .nav.is-open .nav-links {
-    padding-bottom: 88px;
+  .mobile-menu {
+    padding-bottom: 20px;
   }
 }
 
