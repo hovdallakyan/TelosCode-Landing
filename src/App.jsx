@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import founderPhoto from '../founder-hovo.jpg';
+import mayaPhoto from '../maya-koch.jpg';
+import BrandLogo from './BrandLogo';
 
 const results = [
   { value: '40+', label: 'Systems delivered' },
@@ -18,16 +20,12 @@ const services = [
     body: 'Custom software and web apps shaped around how your team actually works.',
   },
   {
-    title: 'AI & automation',
-    body: 'Practical assistants that remove repetitive work without extra noise.',
+    title: 'AI agents & automation',
+    body: 'Practical agents and workflows that remove repetitive operational work.',
   },
   {
-    title: 'Integrations',
-    body: 'Connect booking tools, CRMs, payments, and the systems you already use.',
-  },
-  {
-    title: 'Customer experience',
-    body: 'Portals and booking flows that feel clear for staff and clients.',
+    title: 'Integrations & portals',
+    body: 'Connect booking tools, CRMs, and payments. Ship client portals staff can run.',
   },
   {
     title: 'Support & evolution',
@@ -35,60 +33,32 @@ const services = [
   },
 ];
 
-const principles = [
-  {
-    label: 'Perspective',
-    title: 'Value first',
-    body: 'Software should show up as time saved, smoother service, and clearer reporting.',
-  },
-  {
-    label: 'Playbook',
-    title: 'Fixed investment',
-    body: 'Agree the outcome and the price before development begins. No hourly drift.',
-  },
-  {
-    label: 'Standard',
-    title: 'One delivery track',
-    body: 'Strategy, design, engineering, and AI handled together, not as separate vendors.',
-  },
-  {
-    label: 'Approach',
-    title: 'Your stack, improved',
-    body: 'We work with the tools your team already relies on every day.',
-  },
-];
-
 const industries = [
-  {
-    title: 'Hotels & hospitality',
-    body: 'Booking, guest portals, concierge workflows, and operations dashboards.',
-  },
-  {
-    title: 'Restaurants',
-    body: 'Reservations, ordering, menus, and loyalty systems that stay easy to run.',
-  },
-  {
-    title: 'Professional services',
-    body: 'Client portals, scheduling, documents, and practice systems with clarity.',
-  },
+  'Hotels & hospitality',
+  'Restaurants',
+  'Law firms',
+  'Clinics',
+  'Professional services',
 ];
 
 const cases = [
   {
-    tag: 'Hospitality · 2025',
-    title: 'A smoother guest journey from booking to checkout',
-    body: 'One system for rooms, guests, requests, and daily decisions.',
-    featured: true,
+    sector: 'Hospitality',
+    title: 'Guest operations platform',
+    problem: 'Bookings, guest requests, and staff tools lived in separate systems.',
+    result: 'One place for rooms, arrivals, and daily decisions.',
   },
   {
-    tag: 'Legal',
-    title: 'Casework without the chase',
-    body: 'A client portal that keeps matters, files, and updates in one place.',
+    sector: 'Legal',
+    title: 'Client matter portal',
+    problem: 'Clients chased updates by email. Files were hard to find.',
+    result: 'Secure portal for matters, documents, and status.',
   },
   {
-    tag: 'Hospitality · AI',
-    title: 'Answers when the team needs them',
-    body: 'An assistant trained on operations data for late arrivals and guest notes.',
+    sector: 'Hospitality',
+    title: 'Operations assistant',
+    problem: 'Front desk spent too long answering the same operational questions.',
+    result: 'An assistant grounded in real hotel data for the shift team.',
   },
 ];
 
@@ -164,10 +134,42 @@ const taglineWords = [
   'shelf.',
 ];
 
+const team = [
+  {
+    name: 'Maya Koch',
+    role: 'Agentic AI Product Manager',
+    place: 'Germany',
+    image: mayaPhoto,
+    initial: 'M',
+  },
+  {
+    name: 'Hovo Dallakyan',
+    role: 'Founder & Software Architect',
+    place: 'Armenia',
+    image: founderPhoto,
+    initial: 'H',
+  },
+  {
+    name: 'Engineering',
+    role: 'Full stack delivery',
+    place: 'Europe',
+    image: null,
+    initial: 'E',
+  },
+  {
+    name: 'AI & automation',
+    role: 'Workflow systems',
+    place: 'Europe',
+    image: null,
+    initial: 'A',
+  },
+];
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const [activeWords, setActiveWords] = useState(0);
+  const [teamIndex, setTeamIndex] = useState(0);
   const taglineRef = useRef(null);
 
   useEffect(() => {
@@ -231,6 +233,15 @@ function App() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  const goTeam = (dir) => {
+    setTeamIndex((current) => {
+      const next = current + dir;
+      if (next < 0) return team.length - 1;
+      if (next >= team.length) return 0;
+      return next;
+    });
+  };
+
   return (
     <div className="page">
       <a className="skip" href="#main">
@@ -238,8 +249,8 @@ function App() {
       </a>
 
       <header className={`nav ${menuOpen ? 'is-open' : ''}`}>
-        <a className="logo" href="#top" onClick={closeMenu}>
-          telos<span>code</span>
+        <a className="logo" href="#top" onClick={closeMenu} aria-label="TelosCode home">
+          <BrandLogo />
         </a>
         <nav className="nav-links" aria-label="Primary">
           <a href="#services" onClick={closeMenu}>
@@ -248,11 +259,11 @@ function App() {
           <a href="#work" onClick={closeMenu}>
             Work
           </a>
-          <a href="#industries" onClick={closeMenu}>
-            Industries
+          <a href="#approach" onClick={closeMenu}>
+            Approach
           </a>
           <a href="#about" onClick={closeMenu}>
-            About
+            Team
           </a>
           <a href="#contact" onClick={closeMenu}>
             Contact
@@ -300,35 +311,45 @@ function App() {
 
           <div className="hero-inner wrap">
             <div className="hero-copy reveal is-visible" data-reveal>
-              <p className="kicker">Software engineering partner · Europe</p>
+              <p className="kicker">Software and AI agents · Team based in Europe</p>
               <h1>
-                We help you <em>reimagine</em> operations through custom software.
+                We build <em>custom software</em> for service businesses.
               </h1>
               <p className="lede">
-                TelosCode builds the systems behind better service businesses. Booking,
-                client portals, practical AI, and automation with fixed pricing.
+                Booking systems, client portals, AI automation, and internal tools for
+                hotels, restaurants, clinics, and professional firms. Fixed pricing.
+                Senior engineers. You work with the people who ship the product.
               </p>
               <div className="hero-actions">
                 <a className="btn" href="#contact">
-                  Get a fixed quote
+                  Book free consultation
                 </a>
                 <a className="link" href="#work">
-                  View client work
+                  See client work
                 </a>
               </div>
-              <ul className="proof-row">
-                <li>Fixed project pricing</li>
-                <li>30 day guarantee</li>
-                <li>Free consultation</li>
+              <ul className="trust">
+                <li>
+                  <span className="trust-mark" aria-hidden="true" />
+                  Fixed project pricing
+                </li>
+                <li>
+                  <span className="trust-mark" aria-hidden="true" />
+                  30 day money back
+                </li>
+                <li>
+                  <span className="trust-mark" aria-hidden="true" />
+                  Free consultation
+                </li>
               </ul>
             </div>
           </div>
         </section>
 
-        {/* Results — EPAM stats strip */}
-        <section className="band band-soft">
-          <div className="wrap">
-            <div className="band-head reveal" data-reveal>
+        {/* Results — compact metric bar */}
+        <section className="results" aria-label="Client results">
+          <div className="wrap results-inner">
+            <div className="results-label reveal" data-reveal>
               <p className="kicker">Client results</p>
               <h2>Delivery that shows up in the work.</h2>
             </div>
@@ -348,19 +369,28 @@ function App() {
           </div>
         </section>
 
-        {/* Services — numbered rows, not card grids */}
+        {/* What we build — services + industries + stack */}
         <section id="services" className="wrap block services">
           <div className="split">
             <div className="split-sticky reveal" data-reveal>
-              <p className="kicker">Services</p>
+              <p className="kicker">What we build</p>
               <h2>
-                Strategy and engineering.
+                Software and AI agents
                 <br />
-                Delivered together.
+                for service operations.
               </h2>
               <p className="split-note">
-                One track from scoping to launch. You talk to the people who build.
+                One track from scoping to launch. Fixed pricing. You talk to the people
+                who design and ship the product.
               </p>
+              <div className="industry-line">
+                <span className="industry-line-label">Built for</span>
+                <ul>
+                  {industries.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
               <a className="link" href="#contact">
                 Start with a fixed quote
               </a>
@@ -386,120 +416,62 @@ function App() {
               ))}
             </div>
           </div>
-        </section>
-
-        {/* Principles — editorial list, not tiles */}
-        <section className="band band-soft">
-          <div className="wrap block-in">
-            <div className="band-head reveal" data-reveal>
-              <p className="kicker">How we work</p>
-              <h2>Simple standards. Senior delivery.</h2>
-            </div>
-            <div className="principle-list">
-              {principles.map((item, i) => (
-                <article
-                  key={item.title}
-                  className="principle reveal"
-                  data-reveal
-                  style={{ '--d': `${i * 45}ms` }}
-                >
-                  <span>{item.label}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Industries — definition rows */}
-        <section id="industries" className="wrap block">
-          <div className="split">
-            <div className="split-sticky reveal" data-reveal>
-              <p className="kicker">Industries</p>
-              <h2>Depth where every interaction matters.</h2>
-            </div>
-            <div className="row-list">
-              {industries.map((item, i) => (
-                <div
-                  key={item.title}
-                  className="row-item static reveal"
-                  data-reveal
-                  style={{ '--d': `${i * 45}ms` }}
-                >
-                  <span className="row-num">{String(i + 1).padStart(2, '0')}</span>
-                  <div className="row-copy">
-                    <h3>{item.title}</h3>
-                    <p>{item.body}</p>
-                    <a className="link" href="#contact">
-                      Discuss your operation
-                    </a>
-                  </div>
-                </div>
+          <div className="stack-inline reveal" data-reveal>
+            <span className="stack-inline-label">Stack</span>
+            <div className="stack">
+              {stack.map((item) => (
+                <span key={item}>{item}</span>
               ))}
             </div>
           </div>
         </section>
 
         {/* Work */}
-        <section id="work" className="wrap block">
-          <div className="band-head reveal" data-reveal>
-            <p className="kicker">Client work</p>
-            <h2>Case studies that start with the problem.</h2>
-          </div>
-          <article className="case-feature reveal" data-reveal>
-            <div>
-              <p className="case-tag">{cases[0].tag}</p>
-              <h3>{cases[0].title}</h3>
-              <p>{cases[0].body}</p>
-              <a className="link" href="#contact">
-                Talk about a similar project
-              </a>
+        <section id="work" className="band band-soft">
+          <div className="wrap block-in">
+            <div className="band-head reveal" data-reveal>
+              <p className="kicker">Selected work</p>
+              <h2>Projects shaped around real operations.</h2>
+              <p className="band-sub">
+                Each engagement starts with the operating problem, then ships a fixed
+                first release the team can actually run.
+              </p>
             </div>
-            <div className="case-visual" aria-hidden="true">
-              <div className="mock">
-                <div className="mock-bar">
-                  <i />
-                  <i />
-                  <i />
-                </div>
-                <div className="mock-body">
-                  <div className="mock-metric">
-                    <small>Occupancy</small>
-                    <b>84%</b>
+            <div className="work-list">
+              {cases.map((item, i) => (
+                <article
+                  key={item.title}
+                  className="work-item reveal"
+                  data-reveal
+                  style={{ '--d': `${i * 50}ms` }}
+                >
+                  <div className="work-top">
+                    <span className="work-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="work-sector">{item.sector}</span>
                   </div>
-                  <div className="mock-metric">
-                    <small>Arrivals</small>
-                    <b>32</b>
+                  <div className="work-body">
+                    <h3>{item.title}</h3>
+                    <dl className="work-facts">
+                      <div>
+                        <dt>Problem</dt>
+                        <dd>{item.problem}</dd>
+                      </div>
+                      <div>
+                        <dt>What we shipped</dt>
+                        <dd>{item.result}</dd>
+                      </div>
+                    </dl>
                   </div>
-                  <div className="mock-metric">
-                    <small>Revenue</small>
-                    <b>14.8k</b>
-                  </div>
-                </div>
-              </div>
+                </article>
+              ))}
             </div>
-          </article>
-          <div className="case-more">
-            {cases.slice(1).map((item, i) => (
-              <article
-                key={item.title}
-                className="case-line reveal"
-                data-reveal
-                style={{ '--d': `${i * 50}ms` }}
-              >
-                <p className="case-tag">{item.tag}</p>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-                <a className="link" href="#contact">
-                  Discuss this
-                </a>
-              </article>
-            ))}
+            <a className="link work-cta reveal" href="#contact" data-reveal>
+              Talk about a similar project
+            </a>
           </div>
         </section>
 
-        {/* Tagline reveal */}
+        {/* Tagline */}
         <section className="tagline band" ref={taglineRef}>
           <div className="wrap tagline-inner">
             <p className="kicker">Our promise</p>
@@ -513,105 +485,125 @@ function App() {
           </div>
         </section>
 
-        {/* Quote — Accenture style */}
-        <section className="wrap block">
-          <div className="quote reveal" data-reveal>
-            <img src={founderPhoto} alt="Hovo, founder of TelosCode" />
-            <figure>
-              <blockquote>
-                Technology should feel like a quiet advantage. Human judgment stays in
-                the lead. Software carries the rest.
-              </blockquote>
-              <figcaption>
-                <b>Hovo</b>
-                <span>Founder & Software Architect</span>
-              </figcaption>
-            </figure>
-          </div>
-        </section>
-
-        {/* Process */}
-        <section className="wrap block">
+        {/* Approach — process + why, one section */}
+        <section id="approach" className="wrap block">
           <div className="band-head reveal" data-reveal>
-            <p className="kicker">Process</p>
-            <h2>A clear path from problem to production.</h2>
+            <p className="kicker">Approach</p>
+            <h2>How we deliver, and why teams stay.</h2>
+            <p className="band-sub">
+              Clear stages, fixed commercial terms, and senior people on the work from
+              the first call through launch.
+            </p>
           </div>
-          <div className="steps">
-            {steps.map((step, i) => (
-              <article
-                key={step.id}
-                className="reveal"
-                data-reveal
-                style={{ '--d': `${i * 50}ms` }}
-              >
+          <div className="steps reveal" data-reveal>
+            {steps.map((step) => (
+              <article key={step.id}>
                 <span>{step.id}</span>
                 <h3>{step.title}</h3>
                 <p>{step.body}</p>
               </article>
             ))}
           </div>
-        </section>
-
-        {/* Why us */}
-        <section className="band band-soft">
-          <div className="wrap block-in why">
-            <div className="split">
-              <div className="split-sticky reveal" data-reveal>
-                <p className="kicker">Why TelosCode</p>
-                <h2>Enterprise standards without the extra layers.</h2>
-              </div>
-              <div className="row-list">
-                {reasons.map((item, i) => (
-                  <article
-                    key={item.title}
-                    className="row-item static reveal"
-                    data-reveal
-                    style={{ '--d': `${i * 40}ms` }}
-                  >
-                    <span className="row-num">{String(i + 1).padStart(2, '0')}</span>
-                    <div className="row-copy">
-                      <h3>{item.title}</h3>
-                      <p>{item.body}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* About */}
-        <section id="about" className="wrap block">
-          <div className="about reveal" data-reveal>
-            <div className="about-photo">
-              <img src={founderPhoto} alt="Hovo, founder of TelosCode" />
-            </div>
-            <div>
-              <p className="kicker">About</p>
-              <h2>Senior people, close to the work.</h2>
-              <p>
-                TelosCode is a distributed European team. We take the best habits of
-                large software service firms and keep delivery personal, direct, and
-                fixed in scope.
-              </p>
-              <p className="meta">Hovo · Founder & Software Architect · Armenia</p>
-              <a className="link" href="#contact">
-                Start a conversation
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* Stack */}
-        <section className="wrap block">
-          <div className="band-head reveal" data-reveal>
-            <p className="kicker">Technology</p>
-            <h2>Modern tools. Measured decisions.</h2>
-          </div>
-          <div className="stack reveal" data-reveal>
-            {stack.map((item) => (
-              <span key={item}>{item}</span>
+          <div className="reason-grid approach-reasons">
+            {reasons.map((item, i) => (
+              <article
+                key={item.title}
+                className="reason reveal"
+                data-reveal
+                style={{ '--d': `${i * 40}ms` }}
+              >
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
             ))}
+          </div>
+        </section>
+
+        {/* Team */}
+        <section id="about" className="band band-soft">
+          <div className="wrap block-in">
+            <div className="about-layout reveal" data-reveal>
+              <div className="about-head">
+                <p className="kicker">Team</p>
+                <h2>A senior team across Europe.</h2>
+                <p>
+                  TelosCode is a distributed studio. Strategy, design, engineering, and
+                  AI stay on one track. You work with the people shipping the product,
+                  not a separate account layer.
+                </p>
+                <p className="about-note">
+                  Roles expand per engagement. Core team members lead delivery end to
+                  end.
+                </p>
+              </div>
+
+              <div className="team-slider" aria-roledescription="carousel" aria-label="Core team">
+                <p className="team-label">Core team</p>
+                <div className="team-stage" aria-live="polite">
+                  {team.map((item, i) => (
+                    <article
+                      key={item.name}
+                      className={`team-slide ${i === teamIndex ? 'is-active' : ''}`}
+                      aria-hidden={i !== teamIndex}
+                    >
+                      <div className={`team-avatar ${item.image ? '' : 'placeholder'}`}>
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={`${item.name}, ${item.role}`}
+                            decoding="async"
+                            fetchPriority={i === 0 ? 'high' : 'low'}
+                          />
+                        ) : (
+                          <span aria-hidden="true">{item.initial}</span>
+                        )}
+                      </div>
+                      <div className="team-meta">
+                        <b>{item.name}</b>
+                        <span>{item.role}</span>
+                        <small>{item.place}</small>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+
+                <div className="team-controls">
+                  <button
+                    type="button"
+                    className="team-nav"
+                    aria-label="Previous team member"
+                    onClick={() => goTeam(-1)}
+                  >
+                    ←
+                  </button>
+                  <div className="team-dots" role="tablist" aria-label="Team members">
+                    {team.map((item, i) => (
+                      <button
+                        key={item.name}
+                        type="button"
+                        role="tab"
+                        aria-selected={i === teamIndex}
+                        aria-label={item.name}
+                        className={i === teamIndex ? 'is-active' : ''}
+                        onClick={() => setTeamIndex(i)}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    className="team-nav"
+                    aria-label="Next team member"
+                    onClick={() => goTeam(1)}
+                  >
+                    →
+                  </button>
+                  <span className="team-count">
+                    {String(teamIndex + 1).padStart(2, '0')} /{' '}
+                    {String(team.length).padStart(2, '0')}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -665,8 +657,8 @@ function App() {
 
       <footer className="footer wrap">
         <div className="footer-top">
-          <a className="logo" href="#top">
-            telos<span>code</span>
+          <a className="logo" href="#top" aria-label="TelosCode home">
+            <BrandLogo />
           </a>
           <p>Software that makes business run better.</p>
         </div>
@@ -675,7 +667,8 @@ function App() {
             <strong>Company</strong>
             <a href="#services">Services</a>
             <a href="#work">Work</a>
-            <a href="#about">About</a>
+            <a href="#approach">Approach</a>
+            <a href="#about">Team</a>
           </div>
           <div>
             <strong>Contact</strong>
