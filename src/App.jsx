@@ -8,6 +8,7 @@ import eugeneJpg from './assets/team/eugene-kuhot.jpg';
 import narekAvif from './assets/team/narek-zhamharyan.avif';
 import narekJpg from './assets/team/narek-zhamharyan.jpg';
 import BrandLogo from './BrandLogo';
+import posthog from './posthog';
 
 const results = [
   { value: '40+', label: 'Systems delivered' },
@@ -269,6 +270,18 @@ function App() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  const trackConsultationCta = (ctaLocation) => {
+    posthog?.capture('consultation_cta_clicked', { cta_location: ctaLocation });
+  };
+
+  const trackServiceInterest = (serviceName) => {
+    posthog?.capture('service_interest_selected', { service_name: serviceName });
+  };
+
+  const trackConsultationEmail = (ctaLocation) => {
+    posthog?.capture('consultation_email_opened', { cta_location: ctaLocation });
+  };
+
   useEffect(() => {
     document.body.classList.toggle('menu-open', menuOpen);
     return () => document.body.classList.remove('menu-open');
@@ -310,7 +323,14 @@ function App() {
             Contact
           </a>
         </nav>
-        <a className="btn btn-sm nav-cta" href="#contact" onClick={closeMenu}>
+        <a
+          className="btn btn-sm nav-cta"
+          href="#contact"
+          onClick={() => {
+            closeMenu();
+            trackConsultationCta('desktop_navigation');
+          }}
+        >
           Book consultation
         </a>
         <button
@@ -348,7 +368,14 @@ function App() {
             Contact
           </a>
         </nav>
-        <a className="btn mobile-menu-cta" href="#contact" onClick={closeMenu}>
+        <a
+          className="btn mobile-menu-cta"
+          href="#contact"
+          onClick={() => {
+            closeMenu();
+            trackConsultationCta('mobile_navigation');
+          }}
+        >
           Book consultation
         </a>
       </div>
@@ -391,7 +418,11 @@ function App() {
                 Senior engineers. You work with the people who ship the product.
               </p>
               <div className="hero-actions">
-                <a className="btn" href="#contact">
+                <a
+                  className="btn"
+                  href="#contact"
+                  onClick={() => trackConsultationCta('hero')}
+                >
                   Book free consultation
                 </a>
                 <a className="link" href="#work">
@@ -461,7 +492,11 @@ function App() {
                   ))}
                 </ul>
               </div>
-              <a className="link" href="#contact">
+              <a
+                className="link"
+                href="#contact"
+                onClick={() => trackConsultationCta('services_intro')}
+              >
                 Start with a fixed quote
               </a>
             </div>
@@ -473,6 +508,7 @@ function App() {
                   className="row-item reveal"
                   data-reveal
                   style={{ '--d': `${i * 40}ms` }}
+                  onClick={() => trackServiceInterest(item.title)}
                 >
                   <span className="row-num">{String(i + 1).padStart(2, '0')}</span>
                   <div className="row-copy">
@@ -539,7 +575,12 @@ function App() {
                 </article>
               ))}
             </div>
-            <a className="link work-cta reveal" href="#contact" data-reveal>
+            <a
+              className="link work-cta reveal"
+              href="#contact"
+              data-reveal
+              onClick={() => trackConsultationCta('selected_work')}
+            >
               Talk about a similar project
             </a>
           </div>
@@ -729,7 +770,11 @@ function App() {
               Tell us the operational problem you want to solve. We will give a
               straight answer on the best next step.
             </p>
-            <a className="btn btn-dark" href="mailto:hello@teloscode.com">
+            <a
+              className="btn btn-dark"
+              href="mailto:hello@teloscode.com"
+              onClick={() => trackConsultationEmail('contact_section')}
+            >
               Book free consultation
             </a>
             <span className="note">Usually replies within one business day</span>
@@ -754,7 +799,12 @@ function App() {
           </div>
           <div>
             <strong>Contact</strong>
-            <a href="mailto:hello@teloscode.com">hello@teloscode.com</a>
+            <a
+              href="mailto:hello@teloscode.com"
+              onClick={() => trackConsultationEmail('footer')}
+            >
+              hello@teloscode.com
+            </a>
             <a href="#contact">Book consultation</a>
           </div>
           <div>
