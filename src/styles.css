@@ -123,24 +123,16 @@ img {
 .brand-logo {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-}
-
-.brand-mark-svg {
-  width: 1em;
-  height: 1em;
-  flex-shrink: 0;
-  display: block;
 }
 
 .brand-word {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-family: Manrope, system-ui, sans-serif;
+  gap: 0.28em;
+  font-family: Poppins, Manrope, system-ui, sans-serif;
   font-size: 1em;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   line-height: 1;
 }
 
@@ -149,24 +141,20 @@ img {
 }
 
 .brand-code {
-  color: var(--muted);
+  color: var(--accent);
 }
 
 .brand-slash {
   display: block;
-  width: 1.5px;
-  height: 0.85em;
-  background: var(--accent);
-  transform: rotate(18deg);
+  width: 0.42em;
+  height: 0.95em;
+  margin: 0 0.02em;
+  color: var(--accent);
   flex-shrink: 0;
 }
 
 .footer .brand-logo {
   font-size: 15px;
-}
-
-.footer .brand-word {
-  font-size: 1em;
 }
 
 .nav-links {
