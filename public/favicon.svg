@@ -6,9 +6,7 @@
       <stop offset="1" stop-color="#134e4a"/>
     </linearGradient>
   </defs>
-  <!-- Soft rounded tile (app-icon style) -->
   <rect width="32" height="32" rx="7" fill="url(#bg)"/>
-  <!-- Letter mark -->
   <text
     x="16"
     y="22"

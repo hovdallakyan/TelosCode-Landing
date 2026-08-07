@@ -90,7 +90,24 @@ const reasons = [
   },
 ];
 
-const stack = ['React', 'Next.js', 'TypeScript', 'Node.js', 'Python', 'AWS', 'OpenAI', 'PostgreSQL'];
+const stack = [
+  'React',
+  'Next.js',
+  'TypeScript',
+  'Node.js',
+  'NestJS',
+  'Python',
+  'FastAPI',
+  'PostgreSQL',
+  'Redis',
+  'AWS',
+  'Docker',
+  'OpenAI API',
+  'Anthropic API',
+  'OpenAPI',
+  'LangChain',
+  'GraphQL',
+];
 
 const faqs = [
   {
@@ -464,11 +481,15 @@ function App() {
             </div>
           </div>
           <div className="stack-inline reveal" data-reveal>
-            <span className="stack-inline-label">Stack</span>
-            <div className="stack">
-              {stack.map((item) => (
-                <span key={item}>{item}</span>
-              ))}
+            <span className="stack-inline-label">Stack depends on the project</span>
+            <div className="stack-marquee" aria-label="Technologies we work with">
+              <div className="stack-track">
+                {[...stack, ...stack].map((item, i) => (
+                  <span key={`${item}-${i}`} className="stack-chip">
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </section>
