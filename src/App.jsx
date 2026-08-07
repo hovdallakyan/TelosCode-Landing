@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import founderPhoto from '../founder-hovo.jpg';
 import mayaPhoto from '../maya-koch.jpg';
+import eugenePhoto from '../eugene-kuhot.jpg';
+import narekPhoto from '../narek-zhamharyan.jpg';
 import BrandLogo from './BrandLogo';
 
 const results = [
@@ -150,18 +152,18 @@ const team = [
     initial: 'H',
   },
   {
-    name: 'Engineering',
-    role: 'Full stack delivery',
-    place: 'Europe',
-    image: null,
+    name: 'Eugene Kuhot',
+    role: 'Senior Software Engineer',
+    place: 'Poland',
+    image: eugenePhoto,
     initial: 'E',
   },
   {
-    name: 'AI & automation',
-    role: 'Workflow systems',
-    place: 'Europe',
-    image: null,
-    initial: 'A',
+    name: 'Narek Zhamharyan',
+    role: 'Data Analyst',
+    place: 'USA',
+    image: narekPhoto,
+    initial: 'N',
   },
 ];
 
@@ -525,20 +527,20 @@ function App() {
             <div className="about-layout reveal" data-reveal>
               <div className="about-head">
                 <p className="kicker">Team</p>
-                <h2>A senior team across Europe.</h2>
+                <h2>A senior team across Europe and the USA.</h2>
                 <p>
                   TelosCode is a distributed studio. Strategy, design, engineering, and
                   AI stay on one track. You work with the people shipping the product,
                   not a separate account layer.
                 </p>
                 <p className="about-note">
-                  Roles expand per engagement. Core team members lead delivery end to
-                  end.
+                  Roles expand per engagement. Delivery is led by senior people end to
+                  end, with specialists joining as the work needs them.
                 </p>
               </div>
 
-              <div className="team-slider" aria-roledescription="carousel" aria-label="Core team">
-                <p className="team-label">Core team</p>
+              <div className="team-slider" aria-roledescription="carousel" aria-label="Team members">
+                <p className="team-label">Meet some of the team</p>
                 <div className="team-stage" aria-live="polite">
                   {team.map((item, i) => (
                     <article
