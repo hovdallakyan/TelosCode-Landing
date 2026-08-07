@@ -177,7 +177,10 @@ function App() {
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (reduced.matches) {
-      document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-visible'));
+      document.querySelectorAll('[data-reveal]').forEach((el) => {
+        el.classList.add('is-visible');
+        el.setAttribute('data-visible', 'true');
+      });
       setActiveWords(taglineWords.length);
       return undefined;
     }
@@ -186,7 +189,9 @@ function App() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // data-visible survives React className re-renders (unlike is-visible alone)
             entry.target.classList.add('is-visible');
+            entry.target.setAttribute('data-visible', 'true');
             observer.unobserve(entry.target);
           }
         });
@@ -194,7 +199,13 @@ function App() {
       { threshold: 0.14, rootMargin: '0px 0px -8% 0px' },
     );
 
-    document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
+    document.querySelectorAll('[data-reveal]').forEach((el) => {
+      if (el.getAttribute('data-visible') === 'true') {
+        el.classList.add('is-visible');
+        return;
+      }
+      observer.observe(el);
+    });
     return () => observer.disconnect();
   }, []);
 
@@ -234,6 +245,11 @@ function App() {
   }, []);
 
   const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    document.body.classList.toggle('menu-open', menuOpen);
+    return () => document.body.classList.remove('menu-open');
+  }, [menuOpen]);
 
   const goTeam = (dir) => {
     setTeamIndex((current) => {
@@ -333,15 +349,15 @@ function App() {
               <ul className="trust">
                 <li>
                   <span className="trust-mark" aria-hidden="true" />
-                  Fixed project pricing
+                  <span className="trust-text">Fixed project pricing</span>
                 </li>
                 <li>
                   <span className="trust-mark" aria-hidden="true" />
-                  30 day money back
+                  <span className="trust-text">30 day money back</span>
                 </li>
                 <li>
                   <span className="trust-mark" aria-hidden="true" />
-                  Free consultation
+                  <span className="trust-text">Free consultation</span>
                 </li>
               </ul>
             </div>
@@ -621,9 +637,7 @@ function App() {
               return (
                 <div
                   key={item.q}
-                  className={`faq-item reveal ${open ? 'open' : ''}`}
-                  data-reveal
-                  style={{ '--d': `${i * 35}ms` }}
+                  className={`faq-item${open ? ' open' : ''}`}
                 >
                   <button
                     type="button"
