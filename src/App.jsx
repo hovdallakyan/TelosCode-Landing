@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import founderPhoto from '../founder-hovo.jpg';
-import mayaPhoto from '../maya-koch.jpg';
-import eugenePhoto from '../eugene-kuhot.jpg';
-import narekPhoto from '../narek-zhamharyan.jpg';
+import founderAvif from './assets/team/founder-hovo.avif';
+import founderJpg from './assets/team/founder-hovo.jpg';
+import mayaAvif from './assets/team/maya-koch.avif';
+import mayaJpg from './assets/team/maya-koch.jpg';
+import eugeneAvif from './assets/team/eugene-kuhot.avif';
+import eugeneJpg from './assets/team/eugene-kuhot.jpg';
+import narekAvif from './assets/team/narek-zhamharyan.avif';
+import narekJpg from './assets/team/narek-zhamharyan.jpg';
 import BrandLogo from './BrandLogo';
 
 const results = [
@@ -109,7 +113,8 @@ const stack = [
   'GraphQL',
 ];
 
-const faqs = [
+// Exported so the build can emit FAQPage structured data from the same source.
+export const faqs = [
   {
     q: 'How much does a project cost?',
     a: 'Projects are scoped individually and priced as a fixed investment. After a short conversation we will tell you if we are a fit and what a first phase looks like.',
@@ -153,33 +158,34 @@ const taglineWords = [
   'shelf.',
 ];
 
+// width/height are the intrinsic sizes printed by `npm run images`.
 const team = [
   {
     name: 'Maya Koch',
     role: 'Agentic AI Product Manager',
     place: 'Germany',
-    image: mayaPhoto,
+    image: { avif: mayaAvif, jpg: mayaJpg, width: 720, height: 720 },
     initial: 'M',
   },
   {
     name: 'Hovo Dallakyan',
     role: 'Founder & Software Architect',
     place: 'Armenia',
-    image: founderPhoto,
+    image: { avif: founderAvif, jpg: founderJpg, width: 720, height: 720 },
     initial: 'H',
   },
   {
     name: 'Eugene Kuhot',
     role: 'Senior Software Engineer',
     place: 'Poland',
-    image: eugenePhoto,
+    image: { avif: eugeneAvif, jpg: eugeneJpg, width: 720, height: 720 },
     initial: 'E',
   },
   {
     name: 'Narek Zhamharyan',
     role: 'Data Analyst',
     place: 'USA',
-    image: narekPhoto,
+    image: { avif: narekAvif, jpg: narekJpg, width: 612, height: 816 },
     initial: 'N',
   },
 ];
@@ -616,12 +622,17 @@ function App() {
                     >
                       <div className={`team-avatar ${item.image ? '' : 'placeholder'}`}>
                         {item.image ? (
-                          <img
-                            src={item.image}
-                            alt={`${item.name}, ${item.role}`}
-                            decoding="async"
-                            fetchPriority={i === 0 ? 'high' : 'low'}
-                          />
+                          <picture>
+                            <source srcSet={item.image.avif} type="image/avif" />
+                            <img
+                              src={item.image.jpg}
+                              alt={`${item.name}, ${item.role}`}
+                              width={item.image.width}
+                              height={item.image.height}
+                              decoding="async"
+                              loading="lazy"
+                            />
+                          </picture>
                         ) : (
                           <span aria-hidden="true">{item.initial}</span>
                         )}
@@ -684,6 +695,8 @@ function App() {
           <div className="faq-list">
             {faqs.map((item, i) => {
               const open = openFaq === i;
+              // Answers stay mounted and are hidden with the `hidden` attribute so
+              // all of them ship in the prerendered HTML, not just the open one.
               return (
                 <div
                   key={item.q}
@@ -692,12 +705,15 @@ function App() {
                   <button
                     type="button"
                     aria-expanded={open}
+                    aria-controls={`faq-answer-${i}`}
                     onClick={() => setOpenFaq(open ? -1 : i)}
                   >
                     <span>{item.q}</span>
                     <i>{open ? '−' : '+'}</i>
                   </button>
-                  {open ? <p>{item.a}</p> : null}
+                  <p id={`faq-answer-${i}`} hidden={!open}>
+                    {item.a}
+                  </p>
                 </div>
               );
             })}

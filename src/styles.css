@@ -1500,6 +1500,13 @@ a.row-item:hover .row-go {
   border: 0;
 }
 
+/* picture is inline by default, so img height: 100% would resolve against it */
+.team-avatar picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .team-avatar img {
   width: 100%;
   height: 100%;

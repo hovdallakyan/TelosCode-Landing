@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://teloscode.com/sitemap.xml
