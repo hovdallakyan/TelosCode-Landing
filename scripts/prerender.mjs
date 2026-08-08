@@ -1,12 +1,15 @@
 /**
- * Injects the build-time render of App into dist/index.html.
+ * Renders every static route into dist/ at build time.
  *
- * Runs after both Vite builds: the client build produces dist/index.html with the
- * hashed asset tags, the SSR build produces the renderable module. The page is
- * fully static, so one render at build time replaces the empty #root that used to
- * ship and removes JS from the critical path for first paint.
+ * The client build produces dist/index.html with the hashed asset tags; that file
+ * is the template for all routes. The SSR build produces the renderable module.
+ * Each route gets the same shell with its own <title>, description, canonical,
+ * and social tags, so the pages are individually linkable and indexable.
+ *
+ * Routes are written as directories (dist/privacy/index.html) so hosts serve them
+ * at clean paths like /privacy.
  */
-import { readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -17,10 +20,15 @@ const SITE_URL = 'https://teloscode.com';
 const FAQ_MARKER =
   '<!-- FAQPage JSON-LD is injected at build time from the same array the page\n         renders, so the structured data cannot drift from the visible copy. -->';
 
+const escapeHtml = (value) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
 /** Escapes the sequences that would let content break out of a script tag. */
-function safeJsonLd(value) {
-  return JSON.stringify(value, null, 2).replace(/</g, '\\u003c');
-}
+const safeJsonLd = (value) => JSON.stringify(value, null, 2).replace(/</g, '\\u003c');
 
 function faqSchema(faqs) {
   return {
@@ -35,37 +43,134 @@ function faqSchema(faqs) {
   };
 }
 
+/**
+ * Replaces a tag in the shell, failing loudly if it is missing. A silent no-op
+ * here would ship a legal page carrying the landing page's canonical URL.
+ */
+function replaceTag(html, pattern, replacement, label) {
+  if (!pattern.test(html)) {
+    throw new Error(`prerender: could not find ${label} in the HTML shell`);
+  }
+  return html.replace(pattern, replacement);
+}
+
+const metaPattern = (attr, name) =>
+  new RegExp(`<meta\\s+${attr}="${name}"[\\s\\S]*?/>`);
+
+function applyMeta(html, { title, description, url }) {
+  const safeTitle = escapeHtml(title);
+  const safeDescription = escapeHtml(description);
+
+  let out = replaceTag(html, /<title>[\s\S]*?<\/title>/, `<title>${safeTitle}</title>`, 'title');
+  out = replaceTag(
+    out,
+    metaPattern('name', 'description'),
+    `<meta name="description" content="${safeDescription}" />`,
+    'description',
+  );
+  out = replaceTag(
+    out,
+    /<link rel="canonical"[^>]*\/>/,
+    `<link rel="canonical" href="${url}" />`,
+    'canonical',
+  );
+  out = replaceTag(
+    out,
+    metaPattern('property', 'og:url'),
+    `<meta property="og:url" content="${url}" />`,
+    'og:url',
+  );
+  out = replaceTag(
+    out,
+    metaPattern('property', 'og:title'),
+    `<meta property="og:title" content="${safeTitle}" />`,
+    'og:title',
+  );
+  out = replaceTag(
+    out,
+    metaPattern('property', 'og:description'),
+    `<meta property="og:description" content="${safeDescription}" />`,
+    'og:description',
+  );
+  out = replaceTag(
+    out,
+    metaPattern('name', 'twitter:title'),
+    `<meta name="twitter:title" content="${safeTitle}" />`,
+    'twitter:title',
+  );
+  out = replaceTag(
+    out,
+    metaPattern('name', 'twitter:description'),
+    `<meta name="twitter:description" content="${safeDescription}" />`,
+    'twitter:description',
+  );
+  return out;
+}
+
 async function run() {
-  const { render, faqs } = await import(
+  const { render, faqs, legalDocs, LAST_UPDATED } = await import(
     pathToFileURL(path.resolve(SERVER_DIR, 'entry-server.js')).href
   );
 
   const templatePath = path.join(DIST, 'index.html');
   const template = await readFile(templatePath, 'utf8');
-  const appHtml = render();
 
   if (!template.includes('<div id="root"></div>')) {
-    throw new Error('Could not find the empty #root div to prerender into.');
+    throw new Error('prerender: could not find the empty #root div');
   }
   if (!template.includes(FAQ_MARKER)) {
-    throw new Error('Could not find the FAQ JSON-LD marker comment in index.html.');
+    throw new Error('prerender: could not find the FAQ JSON-LD marker comment');
   }
 
-  const html = template
-    .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
-    .replace(
+  const routes = [
+    {
+      path: '/',
+      out: 'index.html',
+      title: 'TelosCode | Custom Software & AI Agents for Service Businesses',
+      description:
+        'Booking systems, client portals, AI automation, and internal tools for hotels, restaurants, clinics, and professional firms. Fixed pricing. Senior engineers.',
+      jsonLd: faqSchema(faqs),
+    },
+    ...Object.values(legalDocs).map((doc) => ({
+      path: `/${doc.slug}`,
+      out: path.join(doc.slug, 'index.html'),
+      title: `${doc.title} | TelosCode`,
+      description: doc.description,
+      jsonLd: null,
+    })),
+  ];
+
+  for (const route of routes) {
+    const url = route.path === '/' ? `${SITE_URL}/` : `${SITE_URL}${route.path}`;
+
+    let html = applyMeta(template, {
+      title: route.title,
+      description: route.description,
+      url,
+    });
+
+    html = html.replace(
+      '<div id="root"></div>',
+      `<div id="root">${render(route.path)}</div>`,
+    );
+    html = html.replace(
       FAQ_MARKER,
-      `<script type="application/ld+json">\n${safeJsonLd(faqSchema(faqs))}\n    </script>`,
+      route.jsonLd
+        ? `<script type="application/ld+json">\n${safeJsonLd(route.jsonLd)}\n    </script>`
+        : '',
     );
 
-  await writeFile(templatePath, html);
+    const outPath = path.join(DIST, route.out);
+    await mkdir(path.dirname(outPath), { recursive: true });
+    await writeFile(outPath, html);
+    console.log(`prerendered ${route.path} -> ${route.out}`);
+  }
 
   // The SSR bundle is a build artifact, not something to deploy.
   await rm(SERVER_DIR, { recursive: true, force: true });
 
   console.log(
-    `prerendered ${(appHtml.length / 1024).toFixed(1)} kB into index.html, ` +
-      `${faqs.length} FAQs in structured data`,
+    `${routes.length} routes, ${faqs.length} FAQs in structured data, legal updated ${LAST_UPDATED}`,
   );
 }
 

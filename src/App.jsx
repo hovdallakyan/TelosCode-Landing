@@ -8,7 +8,9 @@ import eugeneJpg from './assets/team/eugene-kuhot.jpg';
 import narekAvif from './assets/team/narek-zhamharyan.avif';
 import narekJpg from './assets/team/narek-zhamharyan.jpg';
 import BrandLogo from './BrandLogo';
+import LegalPage from './LegalPage';
 import posthog from './posthog';
+import { legalDocs } from './legal';
 
 const results = [
   { value: '40+', label: 'Systems delivered' },
@@ -19,24 +21,29 @@ const results = [
 
 const services = [
   {
-    title: 'Strategy & scoping',
-    body: 'Define the operating problem, the outcome, and a fixed path before build starts.',
+    title: 'Decide what is worth building',
+    body: 'Before committing to a project, we identify where time, revenue, or customer experience is being lost. You get a clear priority and a practical first step instead of a long list of ideas.',
+    outcomes: ['A sharper investment decision', 'A fixed path for the first release'],
   },
   {
-    title: 'Product engineering',
-    body: 'Custom software and web apps shaped around how your team actually works.',
+    title: 'Replace manual work with a reliable system',
+    body: 'When the business runs on spreadsheets, inboxes, and workarounds, important work gets delayed or missed. We create one place for the process your team needs to run every day.',
+    outcomes: ['Fewer handoffs and duplicate tasks', 'More consistent day to day operations'],
   },
   {
-    title: 'AI agents & automation',
-    body: 'Practical agents and workflows that remove repetitive operational work.',
+    title: 'Give your team time back',
+    body: 'We automate repeat questions, routine checks, and information gathering where it makes a measurable difference. Your people keep the judgment calls and spend less time on administrative work.',
+    outcomes: ['Less repetitive work for staff', 'Faster responses when demand is high'],
   },
   {
-    title: 'Integrations & portals',
-    body: 'Connect booking tools, CRMs, and payments. Ship client portals staff can run.',
+    title: 'Make it easier to do business with you',
+    body: 'Clients and guests should not need to chase updates, repeat details, or wait for simple answers. We create clearer self service journeys that support the relationship rather than complicate it.',
+    outcomes: ['A better client or guest experience', 'Fewer routine requests for your team'],
   },
   {
-    title: 'Support & evolution',
-    body: 'Stay close after launch so the product keeps matching the business.',
+    title: 'Keep the operation moving as you grow',
+    body: 'A useful system needs to change when your services, team, or customer expectations change. We remain close after launch to improve the parts of the operation that matter next.',
+    outcomes: ['Software that stays aligned with the business', 'A trusted team for the next improvement'],
   },
 ];
 
@@ -48,50 +55,65 @@ const industries = [
   'Professional services',
 ];
 
-const cases = [
+const firstProject = [
   {
-    sector: 'Hospitality',
-    title: 'Guest operations platform',
-    problem: 'Bookings, guest requests, and staff tools lived in separate systems.',
-    result: 'One place for rooms, arrivals, and daily decisions.',
+    stage: 'Conversation',
+    title: 'Start with the workflow',
+    happens:
+      'You show us the part of the business that is slow, manual, or difficult for customers and staff.',
+    gets:
+      'A clear view of whether software is the right answer and what a sensible first phase could solve.',
   },
   {
-    sector: 'Legal',
-    title: 'Client matter portal',
-    problem: 'Clients chased updates by email. Files were hard to find.',
-    result: 'Secure portal for matters, documents, and status.',
+    stage: 'Scope',
+    title: 'Agree the first release',
+    happens:
+      'We define the workflow, what is included, and the decisions needed before build starts.',
+    gets:
+      'A written scope, fixed project price, and delivery plan you can review before committing.',
   },
   {
-    sector: 'Hospitality',
-    title: 'Operations assistant',
-    problem: 'Front desk spent too long answering the same operational questions.',
-    result: 'An assistant grounded in real hotel data for the shift team.',
+    stage: 'Build',
+    title: 'Review working progress',
+    happens:
+      'We build in focused stages and test the real scenarios your team deals with every day.',
+    gets:
+      'Regular visibility into the work and fewer surprises when the system reaches your team.',
+  },
+  {
+    stage: 'Launch',
+    title: 'Put it into daily use',
+    happens:
+      'We support handover, resolve agreed issues, and stay available once the system is in use.',
+    gets:
+      'A 30-day guarantee and a team that already understands the workflow when you need to improve it.',
   },
 ];
 
-const steps = [
-  { id: '01', title: 'Strategize', body: 'Map the problem and define the outcome that matters.' },
-  { id: '02', title: 'Design', body: 'Shape the product around real daily work.' },
-  { id: '03', title: 'Build', body: 'Deliver in fixed phases with clear checkpoints.' },
-  { id: '04', title: 'Launch', body: 'Ship with confidence, then keep improving.' },
-];
-
-const reasons = [
+const whyTelosCode = [
+  {
+    title: 'Senior engineers start with the business',
+    body: 'We map the operational problem before proposing software, so the build solves a real constraint rather than adding another system.',
+  },
   {
     title: 'Fixed project pricing',
-    body: 'Investment agreed before build. No surprise invoices.',
+    body: 'Scope, investment, and decision points are agreed before work begins. You can plan the project without watching a running meter.',
   },
   {
-    title: 'Direct communication',
-    body: 'You work with the people designing and building the product.',
+    title: 'A direct line to the people building it',
+    body: 'Questions reach the engineers making the decisions. Less relay work means fewer assumptions and faster answers.',
   },
   {
-    title: '30 day guarantee',
-    body: 'We stand behind agreed scope and resolve issues after handover.',
+    title: 'Boutique by design',
+    body: 'A small senior team stays close to the details. Your project does not disappear into an account structure or a delivery queue.',
   },
   {
-    title: 'Built to last',
-    body: 'Structured for change so the software grows with the business.',
+    title: 'AI with a job to do',
+    body: 'We use AI where it removes repeat work, surfaces useful information, or shortens a handoff. If it does not improve the operation, it does not go in the scope.',
+  },
+  {
+    title: 'A partner after launch',
+    body: 'We stay available as the business changes, so the software can keep pace with new services, processes, and systems.',
   },
 ];
 
@@ -310,11 +332,8 @@ function App() {
           <a href="#services" onClick={closeMenu}>
             Services
           </a>
-          <a href="#work" onClick={closeMenu}>
-            Work
-          </a>
           <a href="#approach" onClick={closeMenu}>
-            Approach
+            How we work
           </a>
           <a href="#about" onClick={closeMenu}>
             Team
@@ -355,11 +374,8 @@ function App() {
           <a href="#services" onClick={closeMenu}>
             Services
           </a>
-          <a href="#work" onClick={closeMenu}>
-            Work
-          </a>
           <a href="#approach" onClick={closeMenu}>
-            Approach
+            How we work
           </a>
           <a href="#about" onClick={closeMenu}>
             Team
@@ -408,14 +424,13 @@ function App() {
 
           <div className="hero-inner wrap">
             <div className="hero-copy reveal is-visible" data-reveal>
-              <p className="kicker">Software and AI agents · Team based in Europe</p>
+              <p className="kicker">Senior software partners for service businesses</p>
               <h1>
-                We build <em>custom software</em> for service businesses.
+                Custom software that removes <em>operational bottlenecks.</em>
               </h1>
               <p className="lede">
-                Booking systems, client portals, AI automation, and internal tools for
-                hotels, restaurants, clinics, and professional firms. Fixed pricing.
-                Senior engineers. You work with the people who ship the product.
+                We build booking systems, client portals, AI workflows, and internal tools for
+                hotels, restaurants, clinics, law firms, and professional services.
               </p>
               <div className="hero-actions">
                 <a
@@ -423,10 +438,10 @@ function App() {
                   href="#contact"
                   onClick={() => trackConsultationCta('hero')}
                 >
-                  Book free consultation
+                  Discuss your project
                 </a>
-                <a className="link" href="#work">
-                  See client work
+                <a className="link" href="#approach">
+                  See how a first project works
                 </a>
               </div>
               <ul className="trust">
@@ -436,11 +451,11 @@ function App() {
                 </li>
                 <li>
                   <span className="trust-mark" aria-hidden="true" />
-                  <span className="trust-text">30 day money back</span>
+                  <span className="trust-text">30-day guarantee</span>
                 </li>
                 <li>
                   <span className="trust-mark" aria-hidden="true" />
-                  <span className="trust-text">Free consultation</span>
+                  <span className="trust-text">Senior engineers only</span>
                 </li>
               </ul>
             </div>
@@ -474,15 +489,15 @@ function App() {
         <section id="services" className="wrap block services">
           <div className="split">
             <div className="split-sticky reveal" data-reveal>
-              <p className="kicker">What we build</p>
+              <p className="kicker">Where we help</p>
               <h2>
-                Software and AI agents
+                Fix the work that holds
                 <br />
-                for service operations.
+                your business back.
               </h2>
               <p className="split-note">
-                One track from scoping to launch. Fixed pricing. You talk to the people
-                who design and ship the product.
+                We start with the operational problem, not a technology choice. Then we build
+                the smallest useful system that makes the work easier to run.
               </p>
               <div className="industry-line">
                 <span className="industry-line-label">Built for</span>
@@ -514,6 +529,14 @@ function App() {
                   <div className="row-copy">
                     <h3>{item.title}</h3>
                     <p>{item.body}</p>
+                    <div className="service-outcomes">
+                      <span>Business outcomes</span>
+                      <ul>
+                        {item.outcomes.map((outcome) => (
+                          <li key={outcome}>{outcome}</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                   <span className="row-go" aria-hidden="true">
                     ↗
@@ -522,33 +545,21 @@ function App() {
               ))}
             </div>
           </div>
-          <div className="stack-inline reveal" data-reveal>
-            <span className="stack-inline-label">Stack depends on the project</span>
-            <div className="stack-marquee" aria-label="Technologies we work with">
-              <div className="stack-track">
-                {[...stack, ...stack].map((item, i) => (
-                  <span key={`${item}-${i}`} className="stack-chip">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
         </section>
 
-        {/* Work */}
-        <section id="work" className="band band-soft">
+        {/* How we work */}
+        <section id="approach" className="band band-soft">
           <div className="wrap block-in">
             <div className="band-head reveal" data-reveal>
-              <p className="kicker">Selected work</p>
-              <h2>Projects shaped around real operations.</h2>
+              <p className="kicker">How we work</p>
+              <h2>A clear first project, led by senior people.</h2>
               <p className="band-sub">
-                Each engagement starts with the operating problem, then ships a fixed
-                first release the team can actually run.
+                We start with one important business need, agree the scope and investment,
+                then stay accountable through launch.
               </p>
             </div>
             <div className="work-list">
-              {cases.map((item, i) => (
+              {firstProject.map((item, i) => (
                 <article
                   key={item.title}
                   className="work-item reveal"
@@ -557,31 +568,55 @@ function App() {
                 >
                   <div className="work-top">
                     <span className="work-num">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="work-sector">{item.sector}</span>
+                    <span className="work-sector">{item.stage}</span>
                   </div>
                   <div className="work-body">
                     <h3>{item.title}</h3>
                     <dl className="work-facts">
                       <div>
-                        <dt>Problem</dt>
-                        <dd>{item.problem}</dd>
+                        <dt>What happens</dt>
+                        <dd>{item.happens}</dd>
                       </div>
                       <div>
-                        <dt>What we shipped</dt>
-                        <dd>{item.result}</dd>
+                        <dt>You get</dt>
+                        <dd>{item.gets}</dd>
                       </div>
                     </dl>
                   </div>
                 </article>
               ))}
             </div>
+            <div className="band-head combined-why reveal" data-reveal>
+              <p className="kicker">Why TelosCode</p>
+              <h2>Built for the work behind the service.</h2>
+              <p className="band-sub">
+                Senior engineers work directly on the systems your team and customers rely on.
+              </p>
+            </div>
+            <div className="reason-grid">
+              {whyTelosCode.map((item, i) => (
+                <article
+                  key={item.title}
+                  className="reason reveal"
+                  data-reveal
+                  style={{ '--d': `${i * 40}ms` }}
+                >
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
+              ))}
+            </div>
+            <p className="band-sub reveal" data-reveal>
+              The result is software that fits the way your business operates today and has a
+              clear owner when it needs to change tomorrow.
+            </p>
             <a
               className="link work-cta reveal"
               href="#contact"
               data-reveal
-              onClick={() => trackConsultationCta('selected_work')}
+              onClick={() => trackConsultationCta('first_project')}
             >
-              Talk about a similar project
+              Start a project conversation
             </a>
           </div>
         </section>
@@ -597,40 +632,6 @@ function App() {
                 </span>
               ))}
             </h2>
-          </div>
-        </section>
-
-        {/* Approach — process + why, one section */}
-        <section id="approach" className="wrap block">
-          <div className="band-head reveal" data-reveal>
-            <p className="kicker">Approach</p>
-            <h2>How we deliver, and why teams stay.</h2>
-            <p className="band-sub">
-              Clear stages, fixed commercial terms, and senior people on the work from
-              the first call through launch.
-            </p>
-          </div>
-          <div className="steps reveal" data-reveal>
-            {steps.map((step) => (
-              <article key={step.id}>
-                <span>{step.id}</span>
-                <h3>{step.title}</h3>
-                <p>{step.body}</p>
-              </article>
-            ))}
-          </div>
-          <div className="reason-grid approach-reasons">
-            {reasons.map((item, i) => (
-              <article
-                key={item.title}
-                className="reason reveal"
-                data-reveal
-                style={{ '--d': `${i * 40}ms` }}
-              >
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </article>
-            ))}
           </div>
         </section>
 
@@ -793,8 +794,7 @@ function App() {
           <div>
             <strong>Company</strong>
             <a href="#services">Services</a>
-            <a href="#work">Work</a>
-            <a href="#approach">Approach</a>
+            <a href="#approach">How we work</a>
             <a href="#about">Team</a>
           </div>
           <div>
@@ -809,8 +809,8 @@ function App() {
           </div>
           <div>
             <strong>Legal</strong>
-            <a href="#contact">Privacy</a>
-            <a href="#contact">Terms</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
           </div>
         </div>
         <small>© 2026 TelosCode. All rights reserved.</small>
@@ -819,4 +819,13 @@ function App() {
   );
 }
 
-export default App;
+/**
+ * Path switch for the three static URLs this site has. There is no client-side
+ * navigation — every link is a real page load — so a lookup beats pulling in a
+ * router. The prerender passes the path it is building and the client passes
+ * window.location.pathname, so both render the same tree and hydration matches.
+ */
+export default function Root({ path = '/' }) {
+  const slug = path.replace(/^\/+|\/+$/g, '');
+  return legalDocs[slug] ? <LegalPage slug={slug} /> : <App />;
+}
