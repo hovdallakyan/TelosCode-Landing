@@ -1,4 +1,31 @@
 User-agent: *
 Allow: /
 
+# AI and answer-engine crawlers are allowed explicitly. The wildcard above
+# already permits them; these entries state the intent so it is not mistaken
+# for an oversight, and so a future disallow is a deliberate edit.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 Sitemap: https://teloscode.com/sitemap.xml

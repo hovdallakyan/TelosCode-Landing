@@ -44,6 +44,26 @@ function faqSchema(faqs) {
 }
 
 /**
+ * Inlines the built stylesheet into the shell.
+ *
+ * The external stylesheet was render-blocking for ~451ms. At ~7 kB gzipped it is
+ * cheaper to embed than to fetch, and on a three-page site most visitors read one
+ * page, so the lost cross-page caching does not pay for the extra round trip.
+ */
+async function inlineCss(html) {
+  const match = html.match(/<link rel="stylesheet"[^>]*href="\/([^"]+\.css)"[^>]*>/);
+  if (!match) {
+    throw new Error('prerender: could not find the stylesheet link to inline');
+  }
+
+  const css = await readFile(path.join(DIST, match[1]), 'utf8');
+  // A literal </style> inside the CSS would close the tag early.
+  const safeCss = css.replace(/<\/style/gi, '<\\/style');
+
+  return html.replace(match[0], `<style>${safeCss}</style>`);
+}
+
+/**
  * Replaces a tag in the shell, failing loudly if it is missing. A silent no-op
  * here would ship a legal page carrying the landing page's canonical URL.
  */
@@ -113,7 +133,7 @@ async function run() {
   );
 
   const templatePath = path.join(DIST, 'index.html');
-  const template = await readFile(templatePath, 'utf8');
+  const template = await inlineCss(await readFile(templatePath, 'utf8'));
 
   if (!template.includes('<div id="root"></div>')) {
     throw new Error('prerender: could not find the empty #root div');

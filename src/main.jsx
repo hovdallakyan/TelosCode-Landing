@@ -1,7 +1,8 @@
 import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import Root from './App';
-import './posthog';
+import { startAnalytics } from './analytics';
+import './fonts.css';
 import './styles.css';
 
 const container = document.getElementById('root');
@@ -18,3 +19,6 @@ if (container.hasChildNodes()) {
 } else {
   createRoot(container).render(tree);
 }
+
+// Deferred so the analytics chunk never competes with first paint.
+startAnalytics();

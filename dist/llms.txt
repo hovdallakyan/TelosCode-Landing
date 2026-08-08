@@ -1,0 +1,35 @@
+# TelosCode
+
+> A European software engineering studio that builds custom software and AI agents for service businesses — hotels, restaurants, clinics, law firms, and professional services firms.
+
+TelosCode is a small senior team working remotely across Europe and the USA. Engagements are scoped and priced as a fixed investment before build starts, and clients work directly with the engineers designing and building the product rather than through an account layer.
+
+## What TelosCode builds
+
+- Booking systems and guest or client operations platforms
+- Client portals and self-service journeys
+- AI agents and workflow automation that remove repetitive operational work
+- Integrations between CRMs, booking tools, payment systems, and internal platforms
+- Internal tools that replace spreadsheet-and-inbox processes
+
+## How engagements work
+
+- Fixed project pricing, agreed before the build begins
+- Most focused projects ship in 8 to 16 weeks; larger platforms ship in stages
+- Clients own the source code, project, and data from the start
+- A 30-day guarantee applies after handover
+- Ongoing support and evolution available after launch
+
+## Industries served
+
+Hotels and hospitality, restaurants, law firms, clinics, and professional services.
+
+## Pages
+
+- [Home](https://teloscode.com/): services, selected work, delivery approach, team, and FAQ
+- [Privacy Policy](https://teloscode.com/privacy): what data the site collects and why
+- [Terms of Use](https://teloscode.com/terms): terms covering use of the website
+
+## Contact
+
+Email hello@teloscode.com for a free consultation. Replies usually arrive within one business day.

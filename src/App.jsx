@@ -9,7 +9,7 @@ import narekAvif from './assets/team/narek-zhamharyan.avif';
 import narekJpg from './assets/team/narek-zhamharyan.jpg';
 import BrandLogo from './BrandLogo';
 import LegalPage from './LegalPage';
-import posthog from './posthog';
+import { capture } from './analytics';
 import { legalDocs } from './legal';
 
 const results = [
@@ -293,15 +293,15 @@ function App() {
   const closeMenu = () => setMenuOpen(false);
 
   const trackConsultationCta = (ctaLocation) => {
-    posthog?.capture('consultation_cta_clicked', { cta_location: ctaLocation });
+    capture('consultation_cta_clicked', { cta_location: ctaLocation });
   };
 
   const trackServiceInterest = (serviceName) => {
-    posthog?.capture('service_interest_selected', { service_name: serviceName });
+    capture('service_interest_selected', { service_name: serviceName });
   };
 
   const trackConsultationEmail = (ctaLocation) => {
-    posthog?.capture('consultation_email_opened', { cta_location: ctaLocation });
+    capture('consultation_email_opened', { cta_location: ctaLocation });
   };
 
   useEffect(() => {

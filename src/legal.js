@@ -50,11 +50,11 @@ export const legalDocs = {
       {
         heading: 'Third parties that receive data',
         body: [
-          'Two third parties may receive data as a technical consequence of loading this site:',
+          'We keep third-party requests to a minimum. Fonts are served from our own domain rather than from Google, so loading this site does not reveal your IP address to a font provider.',
+          'Two third parties may receive data as a technical consequence of using the site:',
         ],
         list: [
-          'PostHog, our analytics provider, which processes the usage data described above on our instructions.',
-          'Google Fonts, which serves the typefaces used on this site. Loading a font causes your browser to connect to Google servers, which reveals your IP address to Google. We are working to self-host these fonts to remove this transfer.',
+          'PostHog, our analytics provider, which processes the usage data described above on our instructions. It is loaded only once you interact with the page, or after a short delay.',
           'Our hosting provider, which processes server request logs in order to serve the site.',
         ],
       },
