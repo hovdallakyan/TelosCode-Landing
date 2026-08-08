@@ -1492,8 +1492,8 @@ a.row-item:hover .row-go {
 
 .team-avatar {
   width: 100%;
-  aspect-ratio: 0.85;
-  max-height: 360px;
+  max-width: 360px;
+  aspect-ratio: 1;
   border-radius: 0;
   overflow: hidden;
   background: #181818;
@@ -1511,7 +1511,7 @@ a.row-item:hover .row-go {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;
+  object-position: center center;
   display: block;
 }
 
@@ -2331,8 +2331,15 @@ a.row-item:hover .row-go {
   }
 
   .team-avatar {
-    max-height: min(70vw, 360px);
-    aspect-ratio: 0.9;
+    width: min(100%, 100vw - 64px);
+    max-width: 100%;
+    aspect-ratio: 1;
+    margin-inline: auto;
+  }
+
+  .team-avatar img {
+    object-fit: cover;
+    object-position: center 18%;
   }
 
   .team-meta b {
@@ -2488,7 +2495,8 @@ a.row-item:hover .row-go {
   }
 
   .team-avatar {
-    max-height: 280px;
+    width: min(100%, 100vw - 48px);
+    aspect-ratio: 1;
   }
 
   .work-item h3 {
