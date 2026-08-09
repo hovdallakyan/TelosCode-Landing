@@ -1,15 +1,21 @@
 /**
  * Content for the /privacy and /terms pages.
  *
- * Bracketed values like [LEGAL ENTITY NAME] are placeholders that must be filled
- * in before these pages are treated as binding. Everything else describes what
- * this site actually does today: PostHog analytics, Google Fonts, and a mailto
- * contact link. If the site starts collecting anything else — a contact form, a
- * booking embed, a chat widget — update the "What we collect" section to match.
+ * These describe what the site actually does today: PostHog analytics on US
+ * infrastructure, self-hosted fonts, and a mailto contact link with no forms. If
+ * the site starts collecting anything else — a contact form, a booking embed, a
+ * chat widget — update "What we collect" and "Third parties" to match.
+ *
+ * TelosCode is not yet incorporated, so both documents identify the operator as
+ * a named individual trading under the TelosCode name, which is a valid
+ * controller under the GDPR. Once a company is registered, three things need
+ * updating: the controller in "Who is responsible", the operator in "Who these
+ * terms are with", and the "Governing law" section, which currently defers to
+ * the signed client agreement instead of naming a jurisdiction.
  */
 
 export const CONTACT_EMAIL = 'hello@teloscode.com';
-export const LAST_UPDATED = '8 August 2026';
+export const LAST_UPDATED = '9 August 2026';
 
 // Static rather than new Date(), which would differ between the build-time
 // prerender and a client rendering after New Year, breaking hydration.
@@ -27,8 +33,8 @@ export const legalDocs = {
       {
         heading: 'Who is responsible',
         body: [
-          'The controller for personal data described in this policy is [LEGAL ENTITY NAME], [REGISTERED ADDRESS].',
-          `You can reach us about anything in this policy at ${CONTACT_EMAIL}.`,
+          'TelosCode is a software engineering studio operated by Hovo Dallakyan, who is the controller for the personal data described in this policy.',
+          `You can reach us about anything in this policy, including any request to access or delete your data, at ${CONTACT_EMAIL}.`,
         ],
       },
       {
@@ -69,15 +75,16 @@ export const legalDocs = {
       {
         heading: 'How long we keep it',
         body: [
-          'Analytics data is retained for [RETENTION PERIOD, e.g. 12 months] and then deleted or fully anonymised.',
+          'Analytics data is retained for 12 months and then deleted or fully anonymised.',
           'Email correspondence is kept for as long as needed to handle your enquiry and to meet any record-keeping obligations we have, then deleted.',
         ],
       },
       {
         heading: 'Where data is processed',
         body: [
-          'Our team works from several countries, including locations inside and outside the European Economic Area. Our analytics provider processes data in [PROCESSING REGION, e.g. the European Union].',
-          'Where personal data is transferred outside the EEA or UK, we rely on the European Commission Standard Contractual Clauses or an applicable adequacy decision as the transfer mechanism.',
+          'Our team works from several countries, including locations inside and outside the European Economic Area.',
+          'Our analytics provider, PostHog, processes the usage data described above on its United States cloud infrastructure, so that data leaves the EEA.',
+          'Where personal data is transferred outside the EEA or UK, we rely on the European Commission Standard Contractual Clauses, which form part of our agreement with the provider, as the transfer mechanism.',
         ],
       },
       {
@@ -114,7 +121,8 @@ export const legalDocs = {
       {
         heading: 'Who these terms are with',
         body: [
-          'This website is operated by [LEGAL ENTITY NAME], [REGISTERED ADDRESS] ("TelosCode", "we", "us"). By using the site you accept these terms. If you do not accept them, please stop using the site.',
+          'This website is operated by Hovo Dallakyan, trading as TelosCode ("TelosCode", "we", "us"). By using the site you accept these terms. If you do not accept them, please stop using the site.',
+          `You can reach us at ${CONTACT_EMAIL}.`,
         ],
       },
       {
@@ -173,7 +181,8 @@ export const legalDocs = {
       {
         heading: 'Governing law',
         body: [
-          'These terms are governed by the laws of [GOVERNING JURISDICTION], and the courts of [GOVERNING JURISDICTION] have exclusive jurisdiction over any dispute, subject to any mandatory consumer protections available to you locally.',
+          'These terms cover the use of this website only. Because every engagement runs on a separate signed agreement, the governing law and the forum for any dispute about project work are set out in that agreement rather than here.',
+          'Nothing in these terms removes a right to bring a claim in your own country of residence where the law gives you that right, or overrides consumer protections that apply to you locally.',
         ],
       },
       {
